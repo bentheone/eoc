@@ -6,7 +6,7 @@ import { AlertContext } from '../../context/AlertContext';
 const CompanyProfile = () => {
   const { user } = useContext(AuthContext);
   const { setAlert } = useContext(AlertContext);
-  
+
   const [profile, setProfile] = useState({
     bio: '',
     location: '',
@@ -23,7 +23,7 @@ const CompanyProfile = () => {
       facebook: ''
     }
   });
-  
+
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
@@ -32,7 +32,7 @@ const CompanyProfile = () => {
       try {
         const res = await axios.get('/api/profiles/me');
         const profileData = res.data;
-        
+
         setProfile({
           bio: profileData.bio || '',
           location: profileData.location || '',
@@ -49,7 +49,7 @@ const CompanyProfile = () => {
             facebook: profileData.company?.socialMedia?.facebook || ''
           }
         });
-        
+
         setLoading(false);
       } catch (err) {
         if (err.response?.status === 400) {
@@ -61,13 +61,13 @@ const CompanyProfile = () => {
         }
       }
     };
-    
+
     fetchProfile();
   }, [setAlert]);
 
   const onChange = (e) => {
     const { name, value } = e.target;
-    
+
     if (name.startsWith('socialMedia.')) {
       const field = name.split('.')[1];
       setProfile(prev => ({
@@ -88,7 +88,7 @@ const CompanyProfile = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
-    
+
     try {
       const profileData = {
         bio: profile.bio,
@@ -102,21 +102,21 @@ const CompanyProfile = () => {
         description: profile.description,
         socialMedia: profile.socialMedia
       };
-      
+
       await axios.post('/api/profiles', profileData);
       setAlert('Company profile updated successfully', 'success');
     } catch (err) {
       console.error(err);
       setAlert('Error updating profile', 'error');
     }
-    
+
     setSaving(false);
   };
 
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[80vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-800"></div>
       </div>
     );
   }
@@ -124,12 +124,12 @@ const CompanyProfile = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-gray-800 mb-6">Company Profile</h1>
-      
+
       <div className="bg-white rounded-lg shadow-md p-6">
         <form onSubmit={onSubmit}>
           <div className="mb-8">
             <h2 className="text-xl font-bold text-gray-800 mb-4">Basic Information</h2>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">
@@ -146,7 +146,7 @@ const CompanyProfile = () => {
                   required
                 />
               </div>
-              
+
               <div>
                 <label htmlFor="industry" className="block text-gray-700 text-sm font-bold mb-2">
                   Industry
@@ -161,7 +161,7 @@ const CompanyProfile = () => {
                   placeholder="e.g., Technology, Healthcare"
                 />
               </div>
-              
+
               <div>
                 <label htmlFor="size" className="block text-gray-700 text-sm font-bold mb-2">
                   Company Size
@@ -182,7 +182,7 @@ const CompanyProfile = () => {
                   <option value="1000+">1000+ employees</option>
                 </select>
               </div>
-              
+
               <div>
                 <label htmlFor="founded" className="block text-gray-700 text-sm font-bold mb-2">
                   Founded Year
@@ -199,7 +199,7 @@ const CompanyProfile = () => {
                   max={new Date().getFullYear()}
                 />
               </div>
-              
+
               <div>
                 <label htmlFor="location" className="block text-gray-700 text-sm font-bold mb-2">
                   Location
@@ -215,7 +215,7 @@ const CompanyProfile = () => {
                   required
                 />
               </div>
-              
+
               <div>
                 <label htmlFor="website" className="block text-gray-700 text-sm font-bold mb-2">
                   Website
@@ -230,7 +230,7 @@ const CompanyProfile = () => {
                   placeholder="https://yourcompany.com"
                 />
               </div>
-              
+
               <div>
                 <label htmlFor="phone" className="block text-gray-700 text-sm font-bold mb-2">
                   Phone Number
@@ -246,7 +246,7 @@ const CompanyProfile = () => {
                 />
               </div>
             </div>
-            
+
             <div className="mt-4">
               <label htmlFor="bio" className="block text-gray-700 text-sm font-bold mb-2">
                 Company Bio
@@ -262,7 +262,7 @@ const CompanyProfile = () => {
                 required
               />
             </div>
-            
+
             <div className="mt-4">
               <label htmlFor="description" className="block text-gray-700 text-sm font-bold mb-2">
                 Detailed Description
@@ -278,10 +278,10 @@ const CompanyProfile = () => {
               />
             </div>
           </div>
-          
+
           <div className="mb-8">
             <h2 className="text-xl font-bold text-gray-800 mb-4">Social Media</h2>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <label htmlFor="linkedin" className="block text-gray-700 text-sm font-bold mb-2">
@@ -297,7 +297,7 @@ const CompanyProfile = () => {
                   placeholder="https://linkedin.com/company/yourcompany"
                 />
               </div>
-              
+
               <div>
                 <label htmlFor="twitter" className="block text-gray-700 text-sm font-bold mb-2">
                   Twitter
@@ -312,7 +312,7 @@ const CompanyProfile = () => {
                   placeholder="https://twitter.com/yourcompany"
                 />
               </div>
-              
+
               <div>
                 <label htmlFor="facebook" className="block text-gray-700 text-sm font-bold mb-2">
                   Facebook
@@ -329,7 +329,7 @@ const CompanyProfile = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="flex justify-end">
             <button
               type="submit"

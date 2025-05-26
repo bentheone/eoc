@@ -6,7 +6,7 @@ import { AlertContext } from '../../context/AlertContext';
 const AdminMatches = () => {
   const { user } = useContext(AuthContext);
   const { setAlert } = useContext(AlertContext);
-  
+
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('pending');
@@ -23,7 +23,7 @@ const AdminMatches = () => {
         setLoading(false);
       }
     };
-    
+
     fetchMatches();
   }, [setAlert]);
 
@@ -33,11 +33,11 @@ const AdminMatches = () => {
         adminApproved: approved,
         adminNotes: notes
       });
-      
-      setMatches(matches.map(match => 
+
+      setMatches(matches.map(match =>
         match._id === matchId ? { ...match, adminApproved: approved, adminNotes: notes } : match
       ));
-      
+
       setAlert(`Match ${approved ? 'approved' : 'rejected'} successfully`, 'success');
     } catch (err) {
       console.error(err);
@@ -54,7 +54,7 @@ const AdminMatches = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[80vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-800"></div>
       </div>
     );
   }
@@ -62,31 +62,31 @@ const AdminMatches = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-gray-800 mb-6">Match Management</h1>
-      
+
       {/* Filter */}
       <div className="bg-white rounded-lg shadow-md p-4 mb-6">
         <div className="flex flex-wrap gap-2">
           <button
             onClick={() => setFilter('pending')}
-            className={`px-4 py-2 rounded ${filter === 'pending' ? 'bg-primary text-white' : 'bg-gray-200 text-gray-700'}`}
+            className={`px-4 py-2 rounded ${filter === 'pending' ? 'bg-green-800 text-white' : 'bg-gray-200 text-gray-700'}`}
           >
             Pending Approval ({matches.filter(m => !m.adminApproved).length})
           </button>
           <button
             onClick={() => setFilter('approved')}
-            className={`px-4 py-2 rounded ${filter === 'approved' ? 'bg-primary text-white' : 'bg-gray-200 text-gray-700'}`}
+            className={`px-4 py-2 rounded ${filter === 'approved' ? 'bg-green-800 text-white' : 'bg-gray-200 text-gray-700'}`}
           >
             Approved ({matches.filter(m => m.adminApproved).length})
           </button>
           <button
             onClick={() => setFilter('all')}
-            className={`px-4 py-2 rounded ${filter === 'all' ? 'bg-primary text-white' : 'bg-gray-200 text-gray-700'}`}
+            className={`px-4 py-2 rounded ${filter === 'all' ? 'bg-green-800 text-white' : 'bg-gray-200 text-gray-700'}`}
           >
             All ({matches.length})
           </button>
         </div>
       </div>
-      
+
       {/* Matches List */}
       {filteredMatches.length > 0 ? (
         <div className="space-y-6">
@@ -101,7 +101,7 @@ const AdminMatches = () => {
                   <p className="text-gray-500">{match.job.location}</p>
                 </div>
                 <div className="text-right">
-                  <div className="text-2xl font-bold text-primary">{match.matchScore}%</div>
+                  <div className="text-2xl font-bold text-green-800">{match.matchScore}%</div>
                   <div className="text-sm text-gray-500">Match Score</div>
                   <div className="mt-2">
                     {match.adminApproved ? (
@@ -116,7 +116,7 @@ const AdminMatches = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
                 <div>
                   <div className="text-sm text-gray-500">Skills Match</div>
@@ -135,7 +135,7 @@ const AdminMatches = () => {
                   <div className="font-semibold">{match.matchDetails.locationMatch}%</div>
                 </div>
               </div>
-              
+
               <div className="mb-4">
                 <h3 className="font-semibold mb-2">Job Details</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
@@ -153,14 +153,14 @@ const AdminMatches = () => {
                   </div>
                 </div>
               </div>
-              
+
               {match.adminNotes && (
                 <div className="mb-4">
                   <h3 className="font-semibold mb-2">Admin Notes</h3>
                   <p className="text-gray-700 text-sm bg-gray-50 p-3 rounded">{match.adminNotes}</p>
                 </div>
               )}
-              
+
               {!match.adminApproved && (
                 <div className="border-t pt-4">
                   <div className="flex flex-col space-y-4">
@@ -175,7 +175,7 @@ const AdminMatches = () => {
                         placeholder="Add notes about this match..."
                       />
                     </div>
-                    
+
                     <div className="flex justify-end space-x-4">
                       <button
                         onClick={() => {
@@ -211,7 +211,7 @@ const AdminMatches = () => {
           <div className="text-gray-400 text-6xl mb-4">🎯</div>
           <h2 className="text-xl font-bold text-gray-800 mb-2">No Matches Found</h2>
           <p className="text-gray-600">
-            {filter === 'pending' 
+            {filter === 'pending'
               ? 'No matches pending approval.'
               : filter === 'approved'
               ? 'No approved matches yet.'

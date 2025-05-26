@@ -59,7 +59,7 @@ const Register = () => {
         <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Create Your Account
         </h1>
-        
+
         <form onSubmit={onSubmit}>
           <div className="mb-4">
             <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">
@@ -76,7 +76,7 @@ const Register = () => {
               required
             />
           </div>
-          
+
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">
               Email Address
@@ -92,7 +92,7 @@ const Register = () => {
               required
             />
           </div>
-          
+
           <div className="mb-4">
             <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">
               Password
@@ -109,7 +109,7 @@ const Register = () => {
               minLength="6"
             />
           </div>
-          
+
           <div className="mb-4">
             <label htmlFor="password2" className="block text-gray-700 text-sm font-bold mb-2">
               Confirm Password
@@ -126,7 +126,7 @@ const Register = () => {
               minLength="6"
             />
           </div>
-          
+
           <div className="mb-6">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Account Type
@@ -156,7 +156,7 @@ const Register = () => {
               </label>
             </div>
           </div>
-          
+
           <button
             type="submit"
             className="btn-primary w-full mb-4"
@@ -164,10 +164,10 @@ const Register = () => {
             Register
           </button>
         </form>
-        
+
         <p className="text-center text-gray-600">
           Already have an account?{' '}
-          <Link to="/login" className="text-primary hover:underline">
+          <Link to="/login" className="text-green-800 hover:underline">
             Sign In
           </Link>
         </p>

@@ -6,7 +6,7 @@ import { AlertContext } from '../../context/AlertContext';
 const AdminJobs = () => {
   const { user } = useContext(AuthContext);
   const { setAlert } = useContext(AlertContext);
-  
+
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
@@ -23,14 +23,14 @@ const AdminJobs = () => {
         setLoading(false);
       }
     };
-    
+
     fetchJobs();
   }, [setAlert]);
 
   const handleStatusUpdate = async (jobId, status) => {
     try {
       await axios.put(`/api/jobs/${jobId}/status`, { status });
-      setJobs(jobs.map(job => 
+      setJobs(jobs.map(job =>
         job._id === jobId ? { ...job, status } : job
       ));
       setAlert(`Job ${status} successfully`, 'success');
@@ -48,7 +48,7 @@ const AdminJobs = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[80vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-800"></div>
       </div>
     );
   }
@@ -56,37 +56,37 @@ const AdminJobs = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-gray-800 mb-6">Job Management</h1>
-      
+
       {/* Filter */}
       <div className="bg-white rounded-lg shadow-md p-4 mb-6">
         <div className="flex flex-wrap gap-2">
           <button
             onClick={() => setFilter('all')}
-            className={`px-4 py-2 rounded ${filter === 'all' ? 'bg-primary text-white' : 'bg-gray-200 text-gray-700'}`}
+            className={`px-4 py-2 rounded ${filter === 'all' ? 'bg-green-800 text-white' : 'bg-gray-200 text-gray-700'}`}
           >
             All ({jobs.length})
           </button>
           <button
             onClick={() => setFilter('pending')}
-            className={`px-4 py-2 rounded ${filter === 'pending' ? 'bg-primary text-white' : 'bg-gray-200 text-gray-700'}`}
+            className={`px-4 py-2 rounded ${filter === 'pending' ? 'bg-green-800 text-white' : 'bg-gray-200 text-gray-700'}`}
           >
             Pending ({jobs.filter(j => j.status === 'pending').length})
           </button>
           <button
             onClick={() => setFilter('approved')}
-            className={`px-4 py-2 rounded ${filter === 'approved' ? 'bg-primary text-white' : 'bg-gray-200 text-gray-700'}`}
+            className={`px-4 py-2 rounded ${filter === 'approved' ? 'bg-green-800 text-white' : 'bg-gray-200 text-gray-700'}`}
           >
             Approved ({jobs.filter(j => j.status === 'approved').length})
           </button>
           <button
             onClick={() => setFilter('rejected')}
-            className={`px-4 py-2 rounded ${filter === 'rejected' ? 'bg-primary text-white' : 'bg-gray-200 text-gray-700'}`}
+            className={`px-4 py-2 rounded ${filter === 'rejected' ? 'bg-green-800 text-white' : 'bg-gray-200 text-gray-700'}`}
           >
             Rejected ({jobs.filter(j => j.status === 'rejected').length})
           </button>
         </div>
       </div>
-      
+
       {/* Jobs List */}
       {filteredJobs.length > 0 ? (
         <div className="space-y-6">
@@ -110,17 +110,17 @@ const AdminJobs = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="mb-4">
                 <h3 className="font-semibold mb-2">Description</h3>
                 <p className="text-gray-700 text-sm">{job.description}</p>
               </div>
-              
+
               <div className="mb-4">
                 <h3 className="font-semibold mb-2">Requirements</h3>
                 <p className="text-gray-700 text-sm">{job.requirements}</p>
               </div>
-              
+
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 text-sm">
                 <div>
                   <span className="font-semibold">Experience:</span> {job.experience}
@@ -137,7 +137,7 @@ const AdminJobs = () => {
                   </div>
                 )}
               </div>
-              
+
               <div className="mb-4">
                 <span className="font-semibold">Skills:</span>
                 <div className="flex flex-wrap gap-2 mt-2">
@@ -148,7 +148,7 @@ const AdminJobs = () => {
                   ))}
                 </div>
               </div>
-              
+
               {job.status === 'pending' && (
                 <div className="flex justify-end space-x-4">
                   <button
@@ -165,7 +165,7 @@ const AdminJobs = () => {
                   </button>
                 </div>
               )}
-              
+
               {job.status === 'approved' && (
                 <div className="flex justify-end space-x-4">
                   <button
@@ -190,7 +190,7 @@ const AdminJobs = () => {
           <div className="text-gray-400 text-6xl mb-4">💼</div>
           <h2 className="text-xl font-bold text-gray-800 mb-2">No Jobs Found</h2>
           <p className="text-gray-600">
-            {filter === 'all' 
+            {filter === 'all'
               ? 'No jobs in the system yet.'
               : `No jobs with status "${filter}" found.`
             }

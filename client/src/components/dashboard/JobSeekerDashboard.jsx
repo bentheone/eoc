@@ -7,7 +7,7 @@ import { AlertContext } from '../../context/AlertContext';
 const JobSeekerDashboard = () => {
   const { user } = useContext(AuthContext);
   const { setAlert } = useContext(AlertContext);
-  
+
   const [profile, setProfile] = useState(null);
   const [matches, setMatches] = useState([]);
   const [documents, setDocuments] = useState([]);
@@ -19,15 +19,15 @@ const JobSeekerDashboard = () => {
         // Fetch profile
         const profileRes = await axios.get('/api/profiles/me');
         setProfile(profileRes.data);
-        
+
         // Fetch matches
         const matchesRes = await axios.get('/api/matches/jobseeker');
         setMatches(matchesRes.data);
-        
+
         // Fetch documents
         const documentsRes = await axios.get('/api/documents');
         setDocuments(documentsRes.data);
-        
+
         setLoading(false);
       } catch (err) {
         console.error(err);
@@ -35,14 +35,14 @@ const JobSeekerDashboard = () => {
         setLoading(false);
       }
     };
-    
+
     fetchData();
   }, [setAlert]);
 
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[80vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-800"></div>
       </div>
     );
   }
@@ -50,7 +50,7 @@ const JobSeekerDashboard = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-gray-800 mb-6">Job Seeker Dashboard</h1>
-      
+
       <div className="bg-white rounded-lg shadow-md p-6 mb-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
           <div>
@@ -59,7 +59,7 @@ const JobSeekerDashboard = () => {
               {profile ? 'Your profile is set up and ready.' : 'Please complete your profile to get started.'}
             </p>
           </div>
-          
+
           <div className="mt-4 md:mt-0">
             {profile ? (
               <Link to="/jobseeker/profile" className="btn-secondary">
@@ -72,14 +72,14 @@ const JobSeekerDashboard = () => {
             )}
           </div>
         </div>
-        
+
         {/* Profile Completion */}
         {profile && (
           <div className="mb-6">
             <h3 className="text-lg font-semibold text-gray-800 mb-2">Profile Completion</h3>
             <div className="w-full bg-gray-200 rounded-full h-2.5">
-              <div 
-                className="bg-primary h-2.5 rounded-full" 
+              <div
+                className="bg-green-800 h-2.5 rounded-full"
                 style={{ width: `${calculateProfileCompletion(profile)}%` }}
               ></div>
             </div>
@@ -88,46 +88,46 @@ const JobSeekerDashboard = () => {
             </p>
           </div>
         )}
-        
+
         {/* Quick Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
             <h3 className="text-lg font-semibold text-gray-800 mb-2">Matches</h3>
-            <p className="text-3xl font-bold text-primary">{matches.length}</p>
-            <Link to="/jobseeker/matches" className="text-primary hover:underline text-sm">
+            <p className="text-3xl font-bold text-green-800">{matches.length}</p>
+            <Link to="/jobseeker/matches" className="text-green-800 hover:underline text-sm">
               View all matches
             </Link>
           </div>
-          
+
           <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
             <h3 className="text-lg font-semibold text-gray-800 mb-2">Documents</h3>
-            <p className="text-3xl font-bold text-primary">{documents.length}</p>
-            <Link to="/jobseeker/documents" className="text-primary hover:underline text-sm">
+            <p className="text-3xl font-bold text-green-800">{documents.length}</p>
+            <Link to="/jobseeker/documents" className="text-green-800 hover:underline text-sm">
               Manage documents
             </Link>
           </div>
-          
+
           <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
             <h3 className="text-lg font-semibold text-gray-800 mb-2">Applications</h3>
-            <p className="text-3xl font-bold text-primary">
+            <p className="text-3xl font-bold text-green-800">
               {matches.filter(match => match.status === 'applied').length}
             </p>
-            <Link to="/jobseeker/matches" className="text-primary hover:underline text-sm">
+            <Link to="/jobseeker/matches" className="text-green-800 hover:underline text-sm">
               View applications
             </Link>
           </div>
         </div>
       </div>
-      
+
       {/* Recent Matches */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-8">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-gray-800">Recent Matches</h2>
-          <Link to="/jobseeker/matches" className="text-primary hover:underline">
+          <Link to="/jobseeker/matches" className="text-green-800 hover:underline">
             View All
           </Link>
         </div>
-        
+
         {matches.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="w-full">
@@ -159,16 +159,16 @@ const JobSeekerDashboard = () => {
           <p className="text-gray-600">No matches found. Complete your profile to get matched with jobs.</p>
         )}
       </div>
-      
+
       {/* Document Status */}
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-gray-800">Document Status</h2>
-          <Link to="/jobseeker/documents" className="text-primary hover:underline">
+          <Link to="/jobseeker/documents" className="text-green-800 hover:underline">
             Upload Documents
           </Link>
         </div>
-        
+
         {documents.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="w-full">
@@ -213,37 +213,37 @@ const JobSeekerDashboard = () => {
 // Helper functions
 const calculateProfileCompletion = (profile) => {
   if (!profile) return 0;
-  
+
   let totalFields = 0;
   let completedFields = 0;
-  
+
   // Basic profile fields
   const basicFields = ['bio', 'location', 'phone'];
   totalFields += basicFields.length;
   completedFields += basicFields.filter(field => profile[field]).length;
-  
+
   // Job seeker specific fields
   if (profile.jobSeeker) {
     // Title and skills
     totalFields += 2;
     if (profile.jobSeeker.title) completedFields++;
     if (profile.jobSeeker.skills && profile.jobSeeker.skills.length > 0) completedFields++;
-    
+
     // Experience
     totalFields++;
     if (profile.jobSeeker.experience && profile.jobSeeker.experience.length > 0) completedFields++;
-    
+
     // Education
     totalFields++;
     if (profile.jobSeeker.education && profile.jobSeeker.education.length > 0) completedFields++;
-    
+
     // Preferences
     totalFields += 3;
     if (profile.jobSeeker.preferredJobTypes && profile.jobSeeker.preferredJobTypes.length > 0) completedFields++;
     if (profile.jobSeeker.preferredLocations && profile.jobSeeker.preferredLocations.length > 0) completedFields++;
     if (profile.jobSeeker.expectedSalary) completedFields++;
   }
-  
+
   return Math.round((completedFields / totalFields) * 100);
 };
 

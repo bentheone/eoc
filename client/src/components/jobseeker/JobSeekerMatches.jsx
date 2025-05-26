@@ -6,7 +6,7 @@ import { AlertContext } from '../../context/AlertContext';
 const JobSeekerMatches = () => {
   const { user } = useContext(AuthContext);
   const { setAlert } = useContext(AlertContext);
-  
+
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
@@ -23,14 +23,14 @@ const JobSeekerMatches = () => {
         setLoading(false);
       }
     };
-    
+
     fetchMatches();
   }, [setAlert]);
 
   const handleApply = async (matchId) => {
     try {
       await axios.put(`/api/matches/${matchId}/status`, { status: 'applied' });
-      setMatches(matches.map(match => 
+      setMatches(matches.map(match =>
         match._id === matchId ? { ...match, status: 'applied' } : match
       ));
       setAlert('Application submitted successfully', 'success');
@@ -48,7 +48,7 @@ const JobSeekerMatches = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[80vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-800"></div>
       </div>
     );
   }
@@ -56,31 +56,31 @@ const JobSeekerMatches = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-gray-800 mb-6">Job Matches</h1>
-      
+
       {/* Filter */}
       <div className="bg-white rounded-lg shadow-md p-4 mb-6">
         <div className="flex flex-wrap gap-2">
           <button
             onClick={() => setFilter('all')}
-            className={`px-4 py-2 rounded ${filter === 'all' ? 'bg-primary text-white' : 'bg-gray-200 text-gray-700'}`}
+            className={`px-4 py-2 rounded ${filter === 'all' ? 'bg-green-800 text-white' : 'bg-gray-200 text-gray-700'}`}
           >
             All ({matches.length})
           </button>
           <button
             onClick={() => setFilter('pending')}
-            className={`px-4 py-2 rounded ${filter === 'pending' ? 'bg-primary text-white' : 'bg-gray-200 text-gray-700'}`}
+            className={`px-4 py-2 rounded ${filter === 'pending' ? 'bg-green-800 text-white' : 'bg-gray-200 text-gray-700'}`}
           >
             New ({matches.filter(m => m.status === 'pending').length})
           </button>
           <button
             onClick={() => setFilter('applied')}
-            className={`px-4 py-2 rounded ${filter === 'applied' ? 'bg-primary text-white' : 'bg-gray-200 text-gray-700'}`}
+            className={`px-4 py-2 rounded ${filter === 'applied' ? 'bg-green-800 text-white' : 'bg-gray-200 text-gray-700'}`}
           >
             Applied ({matches.filter(m => m.status === 'applied').length})
           </button>
         </div>
       </div>
-      
+
       {/* Matches */}
       {filteredMatches.length > 0 ? (
         <div className="space-y-6">
@@ -93,11 +93,11 @@ const JobSeekerMatches = () => {
                   <p className="text-gray-500">{match.job.location}</p>
                 </div>
                 <div className="text-right">
-                  <div className="text-2xl font-bold text-primary">{match.matchScore}%</div>
+                  <div className="text-2xl font-bold text-green-800">{match.matchScore}%</div>
                   <div className="text-sm text-gray-500">Match Score</div>
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
                 <div>
                   <div className="text-sm text-gray-500">Skills Match</div>
@@ -116,7 +116,7 @@ const JobSeekerMatches = () => {
                   <div className="font-semibold">{match.matchDetails.locationMatch}%</div>
                 </div>
               </div>
-              
+
               <div className="mb-4">
                 <h3 className="font-semibold mb-2">Job Details</h3>
                 <p className="text-gray-600 text-sm">{match.job.description}</p>
@@ -131,12 +131,12 @@ const JobSeekerMatches = () => {
                   )}
                 </div>
               </div>
-              
+
               <div className="flex justify-between items-center">
                 <span className={`px-3 py-1 rounded-full text-sm ${getStatusColor(match.status)}`}>
                   {formatStatus(match.status)}
                 </span>
-                
+
                 {match.status === 'pending' && (
                   <button
                     onClick={() => handleApply(match._id)}
@@ -154,7 +154,7 @@ const JobSeekerMatches = () => {
           <div className="text-gray-400 text-6xl mb-4">🎯</div>
           <h2 className="text-xl font-bold text-gray-800 mb-2">No Matches Found</h2>
           <p className="text-gray-600">
-            {filter === 'all' 
+            {filter === 'all'
               ? 'Complete your profile to get matched with suitable jobs.'
               : `No matches with status "${filter}" found.`
             }
