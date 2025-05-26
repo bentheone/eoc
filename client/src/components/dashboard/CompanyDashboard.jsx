@@ -7,7 +7,7 @@ import { AlertContext } from '../../context/AlertContext';
 const CompanyDashboard = () => {
   const { user } = useContext(AuthContext);
   const { setAlert } = useContext(AlertContext);
-  
+
   const [profile, setProfile] = useState(null);
   const [jobs, setJobs] = useState([]);
   const [matches, setMatches] = useState([]);
@@ -19,15 +19,15 @@ const CompanyDashboard = () => {
         // Fetch profile
         const profileRes = await axios.get('/api/profiles/me');
         setProfile(profileRes.data);
-        
+
         // Fetch jobs
         const jobsRes = await axios.get('/api/jobs/company');
         setJobs(jobsRes.data);
-        
+
         // Fetch matches
         const matchesRes = await axios.get('/api/matches/company');
         setMatches(matchesRes.data);
-        
+
         setLoading(false);
       } catch (err) {
         console.error(err);
@@ -35,14 +35,14 @@ const CompanyDashboard = () => {
         setLoading(false);
       }
     };
-    
+
     fetchData();
   }, [setAlert]);
 
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[80vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-800"></div>
       </div>
     );
   }
@@ -50,7 +50,7 @@ const CompanyDashboard = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-gray-800 mb-6">Company Dashboard</h1>
-      
+
       <div className="bg-white rounded-lg shadow-md p-6 mb-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
           <div>
@@ -59,7 +59,7 @@ const CompanyDashboard = () => {
               {profile ? 'Your company profile is set up and ready.' : 'Please complete your company profile to get started.'}
             </p>
           </div>
-          
+
           <div className="mt-4 md:mt-0">
             {profile ? (
               <Link to="/company/profile" className="btn-secondary">
@@ -72,14 +72,14 @@ const CompanyDashboard = () => {
             )}
           </div>
         </div>
-        
+
         {/* Profile Completion */}
         {profile && (
           <div className="mb-6">
             <h3 className="text-lg font-semibold text-gray-800 mb-2">Profile Completion</h3>
             <div className="w-full bg-gray-200 rounded-full h-2.5">
-              <div 
-                className="bg-primary h-2.5 rounded-full" 
+              <div
+                className="bg-green-800 h-2.5 rounded-full"
                 style={{ width: `${calculateProfileCompletion(profile)}%` }}
               ></div>
             </div>
@@ -88,48 +88,48 @@ const CompanyDashboard = () => {
             </p>
           </div>
         )}
-        
+
         {/* Quick Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
             <h3 className="text-lg font-semibold text-gray-800 mb-2">Active Jobs</h3>
-            <p className="text-3xl font-bold text-primary">
+            <p className="text-3xl font-bold text-green-800">
               {jobs.filter(job => job.status === 'approved' && job.isActive).length}
             </p>
-            <Link to="/company/jobs" className="text-primary hover:underline text-sm">
+            <Link to="/company/jobs" className="text-green-800 hover:underline text-sm">
               Manage jobs
             </Link>
           </div>
-          
+
           <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
             <h3 className="text-lg font-semibold text-gray-800 mb-2">Pending Jobs</h3>
-            <p className="text-3xl font-bold text-primary">
+            <p className="text-3xl font-bold text-green-800">
               {jobs.filter(job => job.status === 'pending').length}
             </p>
-            <Link to="/company/jobs" className="text-primary hover:underline text-sm">
+            <Link to="/company/jobs" className="text-green-800 hover:underline text-sm">
               View pending jobs
             </Link>
           </div>
-          
+
           <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
             <h3 className="text-lg font-semibold text-gray-800 mb-2">Candidate Matches</h3>
-            <p className="text-3xl font-bold text-primary">{matches.length}</p>
-            <Link to="/company/matches" className="text-primary hover:underline text-sm">
+            <p className="text-3xl font-bold text-green-800">{matches.length}</p>
+            <Link to="/company/matches" className="text-green-800 hover:underline text-sm">
               View all matches
             </Link>
           </div>
         </div>
       </div>
-      
+
       {/* Recent Jobs */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-8">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-gray-800">Recent Jobs</h2>
-          <Link to="/company/jobs" className="text-primary hover:underline">
+          <Link to="/company/jobs" className="text-green-800 hover:underline">
             View All
           </Link>
         </div>
-        
+
         {jobs.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="w-full">
@@ -163,16 +163,16 @@ const CompanyDashboard = () => {
           <p className="text-gray-600">No jobs posted yet. Create your first job posting to start finding candidates.</p>
         )}
       </div>
-      
+
       {/* Recent Candidate Matches */}
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-gray-800">Recent Candidate Matches</h2>
-          <Link to="/company/matches" className="text-primary hover:underline">
+          <Link to="/company/matches" className="text-green-800 hover:underline">
             View All
           </Link>
         </div>
-        
+
         {matches.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="w-full">
@@ -211,22 +211,22 @@ const CompanyDashboard = () => {
 // Helper functions
 const calculateProfileCompletion = (profile) => {
   if (!profile) return 0;
-  
+
   let totalFields = 0;
   let completedFields = 0;
-  
+
   // Basic profile fields
   const basicFields = ['bio', 'location', 'phone'];
   totalFields += basicFields.length;
   completedFields += basicFields.filter(field => profile[field]).length;
-  
+
   // Company specific fields
   if (profile.company) {
     // Basic company info
     const companyFields = ['name', 'industry', 'size', 'founded', 'description'];
     totalFields += companyFields.length;
     completedFields += companyFields.filter(field => profile.company[field]).length;
-    
+
     // Social media
     if (profile.company.socialMedia) {
       const socialFields = ['linkedin', 'twitter', 'facebook'];
@@ -234,7 +234,7 @@ const calculateProfileCompletion = (profile) => {
       completedFields += socialFields.filter(field => profile.company.socialMedia[field]).length;
     }
   }
-  
+
   return Math.round((completedFields / totalFields) * 100);
 };
 

@@ -6,12 +6,12 @@ import { AlertContext } from '../../context/AlertContext';
 const CompanyJobs = () => {
   const { user } = useContext(AuthContext);
   const { setAlert } = useContext(AlertContext);
-  
+
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showJobForm, setShowJobForm] = useState(false);
   const [editingJob, setEditingJob] = useState(null);
-  
+
   const [jobForm, setJobForm] = useState({
     title: '',
     description: '',
@@ -37,7 +37,7 @@ const CompanyJobs = () => {
         setLoading(false);
       }
     };
-    
+
     fetchJobs();
   }, [setAlert]);
 
@@ -77,14 +77,14 @@ const CompanyJobs = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       const jobData = {
         ...jobForm,
         salary: jobForm.salary ? parseInt(jobForm.salary) : undefined,
         applicationDeadline: jobForm.applicationDeadline || undefined
       };
-      
+
       if (editingJob) {
         const res = await axios.put(`/api/jobs/${editingJob._id}`, jobData);
         setJobs(jobs.map(job => job._id === editingJob._id ? res.data : job));
@@ -94,7 +94,7 @@ const CompanyJobs = () => {
         setJobs([res.data, ...jobs]);
         setAlert('Job posted successfully', 'success');
       }
-      
+
       resetForm();
     } catch (err) {
       console.error(err);
@@ -106,7 +106,7 @@ const CompanyJobs = () => {
     if (!window.confirm('Are you sure you want to delete this job?')) {
       return;
     }
-    
+
     try {
       await axios.delete(`/api/jobs/${jobId}`);
       setJobs(jobs.filter(job => job._id !== jobId));
@@ -120,7 +120,7 @@ const CompanyJobs = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[80vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-800"></div>
       </div>
     );
   }
@@ -136,14 +136,14 @@ const CompanyJobs = () => {
           {showJobForm ? 'Cancel' : 'Post New Job'}
         </button>
       </div>
-      
+
       {/* Job Form */}
       {showJobForm && (
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
           <h2 className="text-xl font-bold text-gray-800 mb-4">
             {editingJob ? 'Edit Job' : 'Post New Job'}
           </h2>
-          
+
           <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
@@ -159,7 +159,7 @@ const CompanyJobs = () => {
                   required
                 />
               </div>
-              
+
               <div>
                 <label className="block text-gray-700 text-sm font-bold mb-2">
                   Location
@@ -173,7 +173,7 @@ const CompanyJobs = () => {
                   required
                 />
               </div>
-              
+
               <div>
                 <label className="block text-gray-700 text-sm font-bold mb-2">
                   Job Type
@@ -191,7 +191,7 @@ const CompanyJobs = () => {
                   <option value="Internship">Internship</option>
                 </select>
               </div>
-              
+
               <div>
                 <label className="block text-gray-700 text-sm font-bold mb-2">
                   Salary (Annual)
@@ -204,7 +204,7 @@ const CompanyJobs = () => {
                   placeholder="50000"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-gray-700 text-sm font-bold mb-2">
                   Experience Level
@@ -222,7 +222,7 @@ const CompanyJobs = () => {
                   <option value="Executive">Executive</option>
                 </select>
               </div>
-              
+
               <div>
                 <label className="block text-gray-700 text-sm font-bold mb-2">
                   Education Level
@@ -241,7 +241,7 @@ const CompanyJobs = () => {
                   <option value="None">None</option>
                 </select>
               </div>
-              
+
               <div>
                 <label className="block text-gray-700 text-sm font-bold mb-2">
                   Application Deadline
@@ -253,7 +253,7 @@ const CompanyJobs = () => {
                   className="input-field"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-gray-700 text-sm font-bold mb-2">
                   Required Skills (comma-separated)
@@ -268,7 +268,7 @@ const CompanyJobs = () => {
                 />
               </div>
             </div>
-            
+
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
                 Job Description
@@ -282,7 +282,7 @@ const CompanyJobs = () => {
                 required
               />
             </div>
-            
+
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
                 Requirements
@@ -296,7 +296,7 @@ const CompanyJobs = () => {
                 required
               />
             </div>
-            
+
             <div className="flex justify-end space-x-4">
               <button
                 type="button"
@@ -315,7 +315,7 @@ const CompanyJobs = () => {
           </form>
         </div>
       )}
-      
+
       {/* Jobs List */}
       {jobs.length > 0 ? (
         <div className="space-y-6">
@@ -335,7 +335,7 @@ const CompanyJobs = () => {
                   </span>
                   <button
                     onClick={() => handleEdit(job)}
-                    className="text-primary hover:text-primary/80"
+                    className="text-green-800 hover:text-green-700"
                   >
                     Edit
                   </button>
@@ -347,9 +347,9 @@ const CompanyJobs = () => {
                   </button>
                 </div>
               </div>
-              
+
               <p className="text-gray-700 mb-4">{job.description}</p>
-              
+
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                 <div>
                   <span className="font-semibold">Experience:</span> {job.experience}
@@ -366,7 +366,7 @@ const CompanyJobs = () => {
                   </div>
                 )}
               </div>
-              
+
               <div className="mt-4">
                 <span className="font-semibold">Skills:</span>
                 <div className="flex flex-wrap gap-2 mt-2">

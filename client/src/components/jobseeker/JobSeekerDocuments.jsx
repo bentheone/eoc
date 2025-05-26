@@ -6,12 +6,12 @@ import { AlertContext } from '../../context/AlertContext';
 const JobSeekerDocuments = () => {
   const { user } = useContext(AuthContext);
   const { setAlert } = useContext(AlertContext);
-  
+
   const [documents, setDocuments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [showUploadForm, setShowUploadForm] = useState(false);
-  
+
   const [uploadForm, setUploadForm] = useState({
     name: '',
     type: 'resume',
@@ -31,7 +31,7 @@ const JobSeekerDocuments = () => {
         setLoading(false);
       }
     };
-    
+
     fetchDocuments();
   }, [setAlert]);
 
@@ -48,27 +48,27 @@ const JobSeekerDocuments = () => {
 
   const handleUpload = async (e) => {
     e.preventDefault();
-    
+
     if (!uploadForm.file) {
       setAlert('Please select a file', 'error');
       return;
     }
-    
+
     setUploading(true);
-    
+
     try {
       const formData = new FormData();
       formData.append('file', uploadForm.file);
       formData.append('name', uploadForm.name);
       formData.append('type', uploadForm.type);
       formData.append('isDefault', uploadForm.isDefault);
-      
+
       const res = await axios.post('/api/documents', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
-      
+
       setDocuments([res.data, ...documents]);
       setAlert('Document uploaded successfully', 'success');
       setShowUploadForm(false);
@@ -82,7 +82,7 @@ const JobSeekerDocuments = () => {
       console.error(err);
       setAlert(err.response?.data?.msg || 'Error uploading document', 'error');
     }
-    
+
     setUploading(false);
   };
 
@@ -90,7 +90,7 @@ const JobSeekerDocuments = () => {
     if (!window.confirm('Are you sure you want to delete this document?')) {
       return;
     }
-    
+
     try {
       await axios.delete(`/api/documents/${documentId}`);
       setDocuments(documents.filter(doc => doc._id !== documentId));
@@ -104,7 +104,7 @@ const JobSeekerDocuments = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[80vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-800"></div>
       </div>
     );
   }
@@ -120,12 +120,12 @@ const JobSeekerDocuments = () => {
           Upload Document
         </button>
       </div>
-      
+
       {/* Upload Form */}
       {showUploadForm && (
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
           <h2 className="text-xl font-bold text-gray-800 mb-4">Upload New Document</h2>
-          
+
           <form onSubmit={handleUpload}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
@@ -142,7 +142,7 @@ const JobSeekerDocuments = () => {
                   required
                 />
               </div>
-              
+
               <div>
                 <label htmlFor="type" className="block text-gray-700 text-sm font-bold mb-2">
                   Document Type
@@ -162,7 +162,7 @@ const JobSeekerDocuments = () => {
                 </select>
               </div>
             </div>
-            
+
             <div className="mb-4">
               <label htmlFor="file" className="block text-gray-700 text-sm font-bold mb-2">
                 File (PDF or DOCX only)
@@ -176,7 +176,7 @@ const JobSeekerDocuments = () => {
                 required
               />
             </div>
-            
+
             <div className="mb-4">
               <label className="flex items-center">
                 <input
@@ -188,7 +188,7 @@ const JobSeekerDocuments = () => {
                 <span className="text-gray-700">Set as default document for this type</span>
               </label>
             </div>
-            
+
             <div className="flex justify-end space-x-4">
               <button
                 type="button"
@@ -208,7 +208,7 @@ const JobSeekerDocuments = () => {
           </form>
         </div>
       )}
-      
+
       {/* Documents List */}
       {documents.length > 0 ? (
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
@@ -265,7 +265,7 @@ const JobSeekerDocuments = () => {
                         href={doc.fileUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-primary hover:text-primary/80"
+                        className="text-green-800 hover:text-green-700"
                       >
                         View
                       </a>

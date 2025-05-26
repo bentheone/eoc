@@ -7,7 +7,7 @@ import { AlertContext } from '../../context/AlertContext';
 const AdminDashboard = () => {
   const { user } = useContext(AuthContext);
   const { setAlert } = useContext(AlertContext);
-  
+
   const [stats, setStats] = useState({
     users: 0,
     jobSeekers: 0,
@@ -28,19 +28,19 @@ const AdminDashboard = () => {
         // Fetch users
         const usersRes = await axios.get('/api/users');
         const users = usersRes.data;
-        
+
         // Fetch jobs
         const jobsRes = await axios.get('/api/jobs/admin');
         const jobs = jobsRes.data;
-        
+
         // Fetch matches
         const matchesRes = await axios.get('/api/matches/admin');
         const matches = matchesRes.data;
-        
+
         // Fetch documents
         const documentsRes = await axios.get('/api/documents/admin');
         const documents = documentsRes.data;
-        
+
         // Calculate stats
         setStats({
           users: users.length,
@@ -53,10 +53,10 @@ const AdminDashboard = () => {
           documents: documents.length,
           pendingDocuments: documents.filter(d => d.status === 'pending').length
         });
-        
+
         // Create recent activity
         const activity = [];
-        
+
         // Add recent users
         users.slice(0, 3).forEach(user => {
           activity.push({
@@ -66,7 +66,7 @@ const AdminDashboard = () => {
             status: user.isVerified ? 'verified' : 'pending'
           });
         });
-        
+
         // Add recent jobs
         jobs.slice(0, 3).forEach(job => {
           activity.push({
@@ -76,7 +76,7 @@ const AdminDashboard = () => {
             status: job.status
           });
         });
-        
+
         // Add recent matches
         matches.slice(0, 3).forEach(match => {
           activity.push({
@@ -86,11 +86,11 @@ const AdminDashboard = () => {
             status: match.adminApproved ? 'approved' : 'pending'
           });
         });
-        
+
         // Sort by timestamp
         activity.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
         setRecentActivity(activity.slice(0, 10));
-        
+
         setLoading(false);
       } catch (err) {
         console.error(err);
@@ -98,14 +98,14 @@ const AdminDashboard = () => {
         setLoading(false);
       }
     };
-    
+
     fetchData();
   }, [setAlert]);
 
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[80vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-800"></div>
       </div>
     );
   }
@@ -113,10 +113,10 @@ const AdminDashboard = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-gray-800 mb-6">Admin Dashboard</h1>
-      
+
       <div className="bg-white rounded-lg shadow-md p-6 mb-8">
         <h2 className="text-2xl font-bold text-gray-800 mb-6">Welcome, {user.name}!</h2>
-        
+
         {/* System Stats */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
@@ -128,7 +128,7 @@ const AdminDashboard = () => {
               <span>{stats.companies} Companies</span>
             </div>
           </div>
-          
+
           <div className="bg-green-50 p-4 rounded-lg border border-green-200">
             <h3 className="text-lg font-semibold text-green-800 mb-2">Jobs</h3>
             <p className="text-3xl font-bold text-green-600">{stats.jobs}</p>
@@ -139,7 +139,7 @@ const AdminDashboard = () => {
               Manage Jobs
             </Link>
           </div>
-          
+
           <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
             <h3 className="text-lg font-semibold text-purple-800 mb-2">Matches</h3>
             <p className="text-3xl font-bold text-purple-600">{stats.matches}</p>
@@ -150,7 +150,7 @@ const AdminDashboard = () => {
               Review Matches
             </Link>
           </div>
-          
+
           <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
             <h3 className="text-lg font-semibold text-orange-800 mb-2">Documents</h3>
             <p className="text-3xl font-bold text-orange-600">{stats.documents}</p>
@@ -162,43 +162,43 @@ const AdminDashboard = () => {
             </Link>
           </div>
         </div>
-        
+
         {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <Link
             to="/admin/users"
-            className="bg-primary text-white p-4 rounded-lg hover:bg-primary/90 transition-colors text-center"
+            className="bg-green-800 text-white p-4 rounded-lg hover:bg-green-700 transition-colors text-center"
           >
             <div className="text-2xl mb-2">👥</div>
             <div className="font-semibold">Manage Users</div>
           </Link>
-          
+
           <Link
             to="/admin/jobs"
-            className="bg-primary text-white p-4 rounded-lg hover:bg-primary/90 transition-colors text-center"
+            className="bg-green-800 text-white p-4 rounded-lg hover:bg-green-700 transition-colors text-center"
           >
             <div className="text-2xl mb-2">💼</div>
             <div className="font-semibold">Review Jobs</div>
           </Link>
-          
+
           <Link
             to="/admin/matches"
-            className="bg-primary text-white p-4 rounded-lg hover:bg-primary/90 transition-colors text-center"
+            className="bg-green-800 text-white p-4 rounded-lg hover:bg-green-700 transition-colors text-center"
           >
             <div className="text-2xl mb-2">🎯</div>
             <div className="font-semibold">Approve Matches</div>
           </Link>
-          
+
           <Link
             to="/admin/documents"
-            className="bg-primary text-white p-4 rounded-lg hover:bg-primary/90 transition-colors text-center"
+            className="bg-green-800 text-white p-4 rounded-lg hover:bg-green-700 transition-colors text-center"
           >
             <div className="text-2xl mb-2">📄</div>
             <div className="font-semibold">Verify Documents</div>
           </Link>
         </div>
       </div>
-      
+
       {/* Pending Approvals */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
         <div className="bg-white rounded-lg shadow-md p-6">
@@ -215,7 +215,7 @@ const AdminDashboard = () => {
                 </Link>
               </div>
             )}
-            
+
             {stats.pendingMatches > 0 && (
               <div className="flex justify-between items-center p-3 bg-yellow-50 rounded-lg border border-yellow-200">
                 <div>
@@ -227,7 +227,7 @@ const AdminDashboard = () => {
                 </Link>
               </div>
             )}
-            
+
             {stats.pendingDocuments > 0 && (
               <div className="flex justify-between items-center p-3 bg-yellow-50 rounded-lg border border-yellow-200">
                 <div>
@@ -239,13 +239,13 @@ const AdminDashboard = () => {
                 </Link>
               </div>
             )}
-            
+
             {stats.pendingJobs === 0 && stats.pendingMatches === 0 && stats.pendingDocuments === 0 && (
               <p className="text-gray-600">No pending approvals at this time.</p>
             )}
           </div>
         </div>
-        
+
         {/* System Actions */}
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-xl font-bold text-gray-800 mb-4">System Actions</h2>
@@ -256,14 +256,14 @@ const AdminDashboard = () => {
             >
               🔄 Generate New Matches
             </button>
-            
+
             <button
               onClick={() => sendNotifications()}
               className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition-colors"
             >
               📧 Send Pending Notifications
             </button>
-            
+
             <button
               onClick={() => exportData()}
               className="w-full bg-purple-500 text-white p-3 rounded-lg hover:bg-purple-600 transition-colors"
@@ -273,11 +273,11 @@ const AdminDashboard = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Recent Activity */}
       <div className="bg-white rounded-lg shadow-md p-6">
         <h2 className="text-xl font-bold text-gray-800 mb-4">Recent Activity</h2>
-        
+
         {recentActivity.length > 0 ? (
           <div className="space-y-3">
             {recentActivity.map((activity, index) => (

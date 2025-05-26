@@ -35,7 +35,7 @@ const VerifyEmail = () => {
     return (
       <div className="flex justify-center items-center min-h-[80vh]">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-800 mx-auto mb-4"></div>
           <p className="text-gray-600">Verifying your email...</p>
         </div>
       </div>
@@ -60,9 +60,9 @@ const VerifyEmail = () => {
             <h1 className="text-2xl font-bold text-gray-800 mb-4">Verification Failed</h1>
           </>
         )}
-        
+
         <p className="text-gray-600 mb-6">{verificationStatus.message}</p>
-        
+
         <Link
           to="/login"
           className="btn-primary inline-block"

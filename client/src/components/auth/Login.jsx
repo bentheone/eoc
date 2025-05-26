@@ -47,7 +47,7 @@ const Login = () => {
         <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Sign In to Your Account
         </h1>
-        
+
         <form onSubmit={onSubmit}>
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">
@@ -64,7 +64,7 @@ const Login = () => {
               required
             />
           </div>
-          
+
           <div className="mb-6">
             <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">
               Password
@@ -81,7 +81,7 @@ const Login = () => {
               minLength="6"
             />
           </div>
-          
+
           <button
             type="submit"
             className="btn-primary w-full mb-4"
@@ -89,10 +89,10 @@ const Login = () => {
             Login
           </button>
         </form>
-        
+
         <p className="text-center text-gray-600">
           Don't have an account?{' '}
-          <Link to="/register" className="text-primary hover:underline">
+          <Link to="/register" className="text-green-800 hover:underline">
             Sign Up
           </Link>
         </p>
