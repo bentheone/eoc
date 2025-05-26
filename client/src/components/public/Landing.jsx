@@ -14,11 +14,11 @@ const Landing = () => {
             Find Your Perfect Job Match
           </h1>
           <p className="text-xl mb-8 max-w-3xl mx-auto">
-            Employment Opportunity Company connects job seekers with employers through 
-            our sophisticated AI-powered matching system. Discover opportunities that 
+            Employment Opportunity Company connects job seekers with employers through
+            our sophisticated AI-powered matching system. Discover opportunities that
             align with your skills and career goals.
           </p>
-          
+
           {!isAuthenticated ? (
             <div className="space-x-4">
               <Link
@@ -55,7 +55,7 @@ const Landing = () => {
               Why Choose EOC?
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Our platform offers unique features designed to make job searching 
+              Our platform offers unique features designed to make job searching
               and hiring more efficient and effective.
             </p>
           </div>
@@ -68,7 +68,7 @@ const Landing = () => {
                 AI-Powered Matching
               </h3>
               <p className="text-gray-600">
-                Our advanced algorithm analyzes skills, experience, and preferences 
+                Our advanced algorithm analyzes skills, experience, and preferences
                 to find the perfect job matches for both candidates and employers.
               </p>
             </div>
@@ -80,7 +80,7 @@ const Landing = () => {
                 Comprehensive Profiles
               </h3>
               <p className="text-gray-600">
-                Create detailed profiles with skills, experience, education, and 
+                Create detailed profiles with skills, experience, education, and
                 upload documents to showcase your qualifications effectively.
               </p>
             </div>
@@ -92,7 +92,7 @@ const Landing = () => {
                 Secure & Verified
               </h3>
               <p className="text-gray-600">
-                All users and job postings are verified by our admin team to ensure 
+                All users and job postings are verified by our admin team to ensure
                 quality and security throughout the platform.
               </p>
             </div>
@@ -197,7 +197,7 @@ const Landing = () => {
           <p className="text-xl mb-8 max-w-2xl mx-auto">
             Join thousands of job seekers and employers who have found success through our platform.
           </p>
-          
+
           {!isAuthenticated && (
             <div className="space-x-4">
               <Link
