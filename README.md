@@ -5,7 +5,7 @@ A comprehensive job matching web application built with the MERN stack that conn
 ## Features
 
 ### Job Seeker Portal
-- User registration and email verification
+- User registration and authentication
 - Comprehensive profile creation with skills, experience, and education
 - Document upload (CV, resume, certificates)
 - AI-powered job matching based on skills and preferences
@@ -47,7 +47,7 @@ A comprehensive job matching web application built with the MERN stack that conn
 
 ### Security & Features
 - Role-based access control (Job Seeker, Company, Admin)
-- Email verification system
+- Secure authentication system
 - Document upload and verification
 - Rate limiting and input validation
 - GDPR compliant data handling
@@ -122,7 +122,6 @@ npm run dev
 - `POST /api/auth/register` - User registration
 - `POST /api/auth/login` - User login
 - `GET /api/auth/me` - Get current user
-- `GET /api/auth/verify/:token` - Email verification
 
 ### Users
 - `GET /api/users` - Get all users (Admin only)
@@ -164,8 +163,8 @@ npm run dev
 ### User Model
 - name, email, password (hashed)
 - role (jobseeker, company, admin)
-- isVerified, isActive
-- verificationToken, resetPasswordToken
+- isActive
+- resetPasswordToken
 
 ### Profile Model
 - user reference

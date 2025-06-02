@@ -21,6 +21,18 @@ body {
   }
 
   .input-field {
-    @apply w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-800/50;
+    @apply w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-800/50 focus:border-green-800 transition-colors;
+  }
+
+  .primary {
+    @apply text-green-800;
+  }
+
+  .text-primary {
+    @apply text-green-800;
+  }
+
+  .bg-primary {
+    @apply bg-green-800;
   }
 }

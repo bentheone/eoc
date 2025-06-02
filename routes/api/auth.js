@@ -1,10 +1,8 @@
 import express from 'express';
 import { check, validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
-import crypto from 'crypto';
 import User from '../../models/User.js';
 import { protect, authorize } from '../../middleware/auth.js';
-import sendEmail from '../../utils/sendEmail.js';
 
 const router = express.Router();
 
@@ -17,7 +15,7 @@ router.post(
     check('name', 'Name is required').not().isEmpty(),
     check('email', 'Please include a valid email').isEmail(),
     check('password', 'Please enter a password with 6 or more characters').isLength({ min: 6 }),
-    check('role', 'Role is required').isIn(['jobseeker', 'company'])
+    check('role', 'Role is required').isIn(['jobseeker', 'company', 'admin'])
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -35,47 +33,15 @@ router.post(
         return res.status(400).json({ errors: [{ msg: 'User already exists' }] });
       }
 
-      // Create verification token
-      const verificationToken = crypto.randomBytes(20).toString('hex');
-
       // Create user
       user = new User({
         name,
         email,
         password,
-        role,
-        verificationToken
+        role
       });
 
       await user.save();
-
-      // Create verification URL
-      const verificationUrl = `${req.protocol}://${req.get('host')}/api/auth/verify/${verificationToken}`;
-
-      // Create message
-      const message = `You are receiving this email because you need to confirm your email address. Please click the link below to verify your email: \n\n ${verificationUrl}`;
-
-      try {
-        await sendEmail({
-          email: user.email,
-          subject: 'Email Verification',
-          message
-        });
-
-        res.status(200).json({
-          success: true,
-          data: 'Email sent'
-        });
-      } catch (err) {
-        console.error(err);
-        user.verificationToken = undefined;
-        await user.save();
-
-        return res.status(500).json({
-          success: false,
-          error: 'Email could not be sent'
-        });
-      }
 
       // Return jsonwebtoken
       const payload = {
@@ -100,30 +66,6 @@ router.post(
   }
 );
 
-// @route   GET api/auth/verify/:token
-// @desc    Verify email
-// @access  Public
-router.get('/verify/:token', async (req, res) => {
-  try {
-    const user = await User.findOne({ verificationToken: req.params.token });
-
-    if (!user) {
-      return res.status(400).json({ errors: [{ msg: 'Invalid token' }] });
-    }
-
-    user.isVerified = true;
-    user.verificationToken = undefined;
-    await user.save();
-
-    res.status(200).json({
-      success: true,
-      data: 'Email verified'
-    });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server error');
-  }
-});
 
 // @route   POST api/auth/login
 // @desc    Authenticate user & get token
@@ -157,11 +99,6 @@ router.post(
         return res.status(400).json({ errors: [{ msg: 'Invalid credentials' }] });
       }
 
-      // Check if user is verified
-      if (!user.isVerified) {
-        return res.status(400).json({ errors: [{ msg: 'Please verify your email' }] });
-      }
-
       // Check if user is active
       if (!user.isActive) {
         return res.status(400).json({ errors: [{ msg: 'Your account has been deactivated' }] });
@@ -191,4 +128,18 @@ router.get('/me', protect, async (req, res) => {
   }
 });
 
+// @route   GET api/auth/users
+// @desc    Get all users (admin only)
+// @access  Private/Admin
+router.get('/users', protect, authorize('admin'), async (req, res) => {
+  try {
+    const users = await User.find().select('-password').sort({ createdAt: -1 });
+    res.json(users);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
 export default router;
+

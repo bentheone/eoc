@@ -31,7 +31,7 @@ const Login = () => {
   };
 
   // Redirect if logged in
-  if (isAuthenticated) {
+  if (isAuthenticated && user) {
     if (user.role === 'jobseeker') {
       return <Navigate to="/jobseeker" />;
     } else if (user.role === 'company') {

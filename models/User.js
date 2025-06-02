@@ -29,15 +29,10 @@ const UserSchema = new mongoose.Schema({
     enum: ['jobseeker', 'company', 'admin'],
     default: 'jobseeker'
   },
-  isVerified: {
-    type: Boolean,
-    default: false
-  },
   isActive: {
     type: Boolean,
     default: true
   },
-  verificationToken: String,
   resetPasswordToken: String,
   resetPasswordExpire: Date,
   createdAt: {
@@ -58,7 +53,7 @@ UserSchema.pre('save', async function(next) {
 
 // Sign JWT and return
 UserSchema.methods.getSignedJwtToken = function() {
-  return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+  return jwt.sign({ user: { id: this._id } }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE
   });
 };

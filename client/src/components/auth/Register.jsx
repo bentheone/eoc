@@ -32,6 +32,8 @@ const Register = () => {
     e.preventDefault();
     if (password !== password2) {
       setAlert('Passwords do not match', 'error');
+    } else if (!role) {
+      setAlert('Please select an account type', 'error');
     } else {
       register({
         name,
@@ -43,7 +45,7 @@ const Register = () => {
   };
 
   // Redirect if logged in
-  if (isAuthenticated) {
+  if (isAuthenticated && user) {
     if (user.role === 'jobseeker') {
       return <Navigate to="/jobseeker" />;
     } else if (user.role === 'company') {
@@ -131,7 +133,7 @@ const Register = () => {
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Account Type
             </label>
-            <div className="flex space-x-4">
+            <div className="flex flex-col space-y-2">
               <label className="flex items-center">
                 <input
                   type="radio"
@@ -153,6 +155,17 @@ const Register = () => {
                   className="mr-2"
                 />
                 <span>Company</span>
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="radio"
+                  name="role"
+                  value="admin"
+                  checked={role === 'admin'}
+                  onChange={onChange}
+                  className="mr-2"
+                />
+                <span>Administrator</span>
               </label>
             </div>
           </div>

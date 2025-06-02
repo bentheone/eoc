@@ -18,15 +18,32 @@ const CompanyDashboard = () => {
       try {
         // Fetch profile
         const profileRes = await axios.get('/api/profiles/me');
-        setProfile(profileRes.data);
 
-        // Fetch jobs
-        const jobsRes = await axios.get('/api/jobs/company');
-        setJobs(jobsRes.data);
+        if (profileRes.data.exists) {
+          setProfile(profileRes.data);
 
-        // Fetch matches
-        const matchesRes = await axios.get('/api/matches/company');
-        setMatches(matchesRes.data);
+          // Only fetch jobs and matches if profile exists
+          try {
+            const jobsRes = await axios.get('/api/jobs/company');
+            setJobs(jobsRes.data);
+          } catch (jobErr) {
+            console.log('No jobs found yet');
+            setJobs([]);
+          }
+
+          try {
+            const matchesRes = await axios.get('/api/matches/company');
+            setMatches(matchesRes.data);
+          } catch (matchErr) {
+            console.log('No matches found yet');
+            setMatches([]);
+          }
+        } else {
+          // Profile doesn't exist, this shouldn't happen if ProfileCheck is working
+          setProfile(null);
+          setJobs([]);
+          setMatches([]);
+        }
 
         setLoading(false);
       } catch (err) {

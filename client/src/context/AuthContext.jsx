@@ -75,6 +75,8 @@ export const AuthProvider = ({ children }) => {
     }
 
     try {
+      console.log('Loading user with token:', localStorage.token);
+      console.log('Axios base URL:', axios.defaults.baseURL);
       const res = await axios.get('/api/auth/me');
 
       dispatch({
@@ -82,6 +84,8 @@ export const AuthProvider = ({ children }) => {
         payload: res.data
       });
     } catch (err) {
+      console.error('Load user error:', err);
+      console.error('Error response:', err.response);
       dispatch({
         type: 'AUTH_ERROR',
         payload: err.response?.data?.error || 'Authentication error'
@@ -98,18 +102,48 @@ export const AuthProvider = ({ children }) => {
     };
 
     try {
+      console.log('Attempting registration with base URL:', axios.defaults.baseURL);
       const res = await axios.post('/api/auth/register', formData, config);
+      console.log('Registration successful, token received:', res.data.token);
 
       dispatch({
         type: 'REGISTER_SUCCESS',
         payload: res.data
       });
 
+      // Set the token in axios headers immediately
+      setAuthToken(res.data.token);
+      console.log('Token set in axios headers');
+
+      // Load user data
       loadUser();
     } catch (err) {
+      console.error('Registration error:', err);
+      console.error('Registration error response:', err.response);
+
+      // Handle different types of registration errors
+      let errorMessage = 'Registration failed';
+
+      if (err.response?.data) {
+        const { data } = err.response;
+
+        // Handle validation errors array
+        if (data.errors && Array.isArray(data.errors)) {
+          errorMessage = data.errors.map(error => error.msg || error.message).join(', ');
+        }
+        // Handle single error message
+        else if (data.msg) {
+          errorMessage = data.msg;
+        }
+        // Handle other error formats
+        else if (data.error) {
+          errorMessage = data.error;
+        }
+      }
+
       dispatch({
         type: 'REGISTER_FAIL',
-        payload: err.response?.data?.errors?.[0]?.msg || 'Registration failed'
+        payload: errorMessage
       });
     }
   };
@@ -123,15 +157,24 @@ export const AuthProvider = ({ children }) => {
     };
 
     try {
+      console.log('Attempting login with base URL:', axios.defaults.baseURL);
       const res = await axios.post('/api/auth/login', formData, config);
+      console.log('Login successful, token received:', res.data.token);
 
       dispatch({
         type: 'LOGIN_SUCCESS',
         payload: res.data
       });
 
+      // Set the token in axios headers immediately
+      setAuthToken(res.data.token);
+      console.log('Token set in axios headers');
+
+      // Load user data
       loadUser();
     } catch (err) {
+      console.error('Login error:', err);
+      console.error('Login error response:', err.response);
       dispatch({
         type: 'LOGIN_FAIL',
         payload: err.response?.data?.errors?.[0]?.msg || 'Login failed'

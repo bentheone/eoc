@@ -9,7 +9,6 @@ import Alert from './components/layout/Alert';
 // Auth Components
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
-import VerifyEmail from './components/auth/VerifyEmail';
 
 // Dashboard Components
 import JobSeekerDashboard from './components/dashboard/JobSeekerDashboard';
@@ -42,6 +41,7 @@ import { AlertProvider } from './context/AlertContext';
 
 // Route Protection
 import PrivateRoute from './components/routing/PrivateRoute';
+import ProfileCheck from './components/routing/ProfileCheck';
 
 function App() {
   return (
@@ -56,49 +56,64 @@ function App() {
                 <Route path="/" element={<Landing />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                <Route path="/verify-email/:token" element={<VerifyEmail />} />
 
                 {/* Job Seeker Routes */}
                 <Route path="/jobseeker" element={
                   <PrivateRoute role="jobseeker">
-                    <JobSeekerDashboard />
+                    <ProfileCheck>
+                      <JobSeekerDashboard />
+                    </ProfileCheck>
                   </PrivateRoute>
                 } />
                 <Route path="/jobseeker/profile" element={
                   <PrivateRoute role="jobseeker">
-                    <JobSeekerProfile />
+                    <ProfileCheck>
+                      <JobSeekerProfile />
+                    </ProfileCheck>
                   </PrivateRoute>
                 } />
                 <Route path="/jobseeker/matches" element={
                   <PrivateRoute role="jobseeker">
-                    <JobSeekerMatches />
+                    <ProfileCheck>
+                      <JobSeekerMatches />
+                    </ProfileCheck>
                   </PrivateRoute>
                 } />
                 <Route path="/jobseeker/documents" element={
                   <PrivateRoute role="jobseeker">
-                    <JobSeekerDocuments />
+                    <ProfileCheck>
+                      <JobSeekerDocuments />
+                    </ProfileCheck>
                   </PrivateRoute>
                 } />
 
                 {/* Company Routes */}
                 <Route path="/company" element={
                   <PrivateRoute role="company">
-                    <CompanyDashboard />
+                    <ProfileCheck>
+                      <CompanyDashboard />
+                    </ProfileCheck>
                   </PrivateRoute>
                 } />
                 <Route path="/company/profile" element={
                   <PrivateRoute role="company">
-                    <CompanyProfile />
+                    <ProfileCheck>
+                      <CompanyProfile />
+                    </ProfileCheck>
                   </PrivateRoute>
                 } />
                 <Route path="/company/jobs" element={
                   <PrivateRoute role="company">
-                    <CompanyJobs />
+                    <ProfileCheck>
+                      <CompanyJobs />
+                    </ProfileCheck>
                   </PrivateRoute>
                 } />
                 <Route path="/company/matches" element={
                   <PrivateRoute role="company">
-                    <CompanyMatches />
+                    <ProfileCheck>
+                      <CompanyMatches />
+                    </ProfileCheck>
                   </PrivateRoute>
                 } />
 
